@@ -955,7 +955,7 @@ public abstract class AbstractWheel extends View {
 						distance -= getItemDimension() / 2;
 					}
 					int items = distance / getItemDimension();
-					if (items != 0 && isValidItemIndex(mCurrentItemIdx + items)) {
+					if (isValidItemIndex(mCurrentItemIdx + items)) {
 						notifyItemClickListenersAboutClick(mCurrentItemIdx + items);
 					}
 				}
