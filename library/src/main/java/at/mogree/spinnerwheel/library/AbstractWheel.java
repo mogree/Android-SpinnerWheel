@@ -47,9 +47,9 @@ import at.mogree.spinnerwheel.library.adapters.WheelViewAdapter;
  *
  * @author Yuri Kanivets
  * @author Dimitri Fedorov
+ * @author Dustin Steiner
  */
 public abstract class AbstractWheel extends View {
-
 	private static int itemID = -1;
 
 	@SuppressWarnings("unused")
@@ -219,9 +219,9 @@ public abstract class AbstractWheel extends View {
 
 			public void onJustify() {
 				Log.d(LOG_TAG, "onJustify");
+				mIsJustified = true;
 				if (Math.abs(mScrollingOffset) > WheelScroller.MIN_DELTA_FOR_SCROLLING) {
 					mScroller.scroll(mScrollingOffset, 0);
-					mIsJustified = true;
 				}
 			}
 		});
@@ -602,7 +602,6 @@ public abstract class AbstractWheel extends View {
 				final int old = mCurrentItemIdx;
 				mCurrentItemIdx = index;
 
-
 				if (isFromScroller) {
 					notifyChangingListeners(old, mCurrentItemIdx);
 				} else {
@@ -963,5 +962,4 @@ public abstract class AbstractWheel extends View {
 		}
 		return mScroller.onTouchEvent(event);
 	}
-
 }
