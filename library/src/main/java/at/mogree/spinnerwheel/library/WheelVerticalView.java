@@ -154,7 +154,7 @@ public class WheelVerticalView extends AbstractWheelView {
 
 	@Override
 	protected WheelScroller createScroller(WheelScroller.ScrollingListener scrollingListener) {
-		return new WheelVerticalScroller(getContext(), scrollingListener);
+		return new WheelVerticalScroller(getContext(), mEnabled, scrollingListener);
 	}
 
 	@Override
@@ -226,7 +226,6 @@ public class WheelVerticalView extends AbstractWheelView {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);

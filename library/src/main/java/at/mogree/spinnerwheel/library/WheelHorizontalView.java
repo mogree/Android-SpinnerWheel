@@ -155,7 +155,7 @@ public class WheelHorizontalView extends AbstractWheelView {
 
 	@Override
 	protected WheelScroller createScroller(WheelScroller.ScrollingListener scrollingListener) {
-		return new WheelHorizontalScroller(getContext(), scrollingListener);
+		return new WheelHorizontalScroller(getContext(), mEnabled, scrollingListener);
 	}
 
 	@Override

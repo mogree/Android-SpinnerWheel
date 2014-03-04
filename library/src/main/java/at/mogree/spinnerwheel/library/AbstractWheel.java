@@ -30,7 +30,6 @@ import android.database.DataSetObserver;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
@@ -64,6 +63,7 @@ public abstract class AbstractWheel extends View {
 	 */
 	private static final int DEF_VISIBLE_ITEMS = 4;
 	private static final boolean DEF_IS_CYCLIC = false;
+	protected static final boolean DEF_ENABLED = true;
 
 	//----------------------------------
 	//  Class properties
@@ -77,6 +77,8 @@ public abstract class AbstractWheel extends View {
 	protected boolean mIsAllVisible;
 
 	protected boolean mIsCyclic;
+
+	protected boolean mEnabled;
 
 	// Scrolling
 	protected WheelScroller mScroller;
@@ -147,6 +149,7 @@ public abstract class AbstractWheel extends View {
 		mVisibleItems = a.getInt(R.styleable.AbstractWheelView_visibleItems, DEF_VISIBLE_ITEMS);
 		mIsAllVisible = a.getBoolean(R.styleable.AbstractWheelView_isAllVisible, false);
 		mIsCyclic = a.getBoolean(R.styleable.AbstractWheelView_isCyclic, DEF_IS_CYCLIC);
+		mEnabled = a.getBoolean(R.styleable.AbstractWheelView_android_enabled, DEF_ENABLED);
 
 		a.recycle();
 	}
@@ -202,7 +205,6 @@ public abstract class AbstractWheel extends View {
 			}
 
 			public void onFinished() {
-				Log.d(LOG_TAG, "onFinished");
 				if (mIsScrollingPerformed) {
 					if (mIsJustified) {
 						mIsJustified = false;
@@ -218,7 +220,6 @@ public abstract class AbstractWheel extends View {
 			}
 
 			public void onJustify() {
-				Log.d(LOG_TAG, "onJustify");
 				mIsJustified = true;
 				if (Math.abs(mScrollingOffset) > WheelScroller.MIN_DELTA_FOR_SCROLLING) {
 					mScroller.scroll(mScrollingOffset, 0);
@@ -649,6 +650,20 @@ public abstract class AbstractWheel extends View {
 		invalidateItemsLayout(false);
 	}
 
+	/**
+	 * Tests if the spinnerwheel is enabled.
+	 *
+	 * @return true if the spinnerwheel can be inetracted with
+	 */
+	public boolean isEnabled() {
+		return mEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		mEnabled = isEnabled;
+		mScroller.setEnabled(isEnabled);
+	}
+
 
 	//--------------------------------------------------------------------------
 	//
@@ -776,6 +791,10 @@ public abstract class AbstractWheel extends View {
 	 * @param item clicked item
 	 */
 	protected void notifyItemClickListenersAboutClick(int item) {
+		if (!mEnabled) {
+			return;
+		}
+
 		for (OnWheelItemClickedListener listener : mItemClickedListeners) {
 			listener.onItemClicked(this, item);
 		}
